@@ -6,7 +6,7 @@ interface MessagesViewProps {
 }
 
 export function MessagesView({ language }: MessagesViewProps) {
-  const [selectedMessage, setSelectedMessage] = useState<number | null>(0);
+  const [selectedMessage, setSelectedMessage] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<'inbox' | 'sent'>('inbox');
 
   const messages = [
@@ -93,7 +93,8 @@ export function MessagesView({ language }: MessagesViewProps) {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3">
-          <div className="lg:col-span-1 border-r border-[#E1E3E8] overflow-y-auto max-h-[600px]">
+          {/* Messages List - Hidden on mobile if message is selected */}
+          <div className={`lg:col-span-1 border-r border-[#E1E3E8] overflow-y-auto max-h-[600px] ${selectedMessage !== null ? 'hidden lg:block' : 'block'}`}>
             <div className="flex border-b border-[#E1E3E8]">
               <button
                 onClick={() => setActiveTab('inbox')}
@@ -152,9 +153,17 @@ export function MessagesView({ language }: MessagesViewProps) {
             </div>
           </div>
 
-          <div className="lg:col-span-2 p-6 bg-[#FAFAFA] hidden lg:block">
+          {/* Message Detail - Visible on mobile if message selected */}
+          <div className={`lg:col-span-2 p-6 bg-[#FAFAFA] ${selectedMessage !== null ? 'block' : 'hidden lg:block'}`}>
             {selectedMsg ? (
               <div className="space-y-6">
+                <button 
+                  onClick={() => setSelectedMessage(null)}
+                  className="lg:hidden mb-4 flex items-center text-[#6789CA] font-semibold"
+                >
+                  <Reply className="w-4 h-4 mr-2 transform rotate-180" />
+                  Retour à la boîte de réception
+                </button>
                 <div className="bg-white rounded-lg p-6 border border-[#E1E3E8]">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
@@ -170,7 +179,7 @@ export function MessagesView({ language }: MessagesViewProps) {
                       </div>
                     </div>
                     <div className="flex gap-2">
-                      <button className="p-2 hover:bg-[#F5F7FA] rounded-lg transition-colors">
+                       <button className="p-2 hover:bg-[#F5F7FA] rounded-lg transition-colors">
                         <Star className={`w-5 h-5 ${selectedMsg.starred ? 'text-[#FFC143] fill-[#FFC143]' : 'text-[#777]'}`} />
                       </button>
                       <button className="p-2 hover:bg-[#F5F7FA] rounded-lg transition-colors">

@@ -109,7 +109,7 @@ export function ParentSettingsView({ language }: ParentSettingsViewProps) {
                       <Globe className="w-4 h-4 inline mr-2" />
                       Langue Préférée
                     </label>
-// ... existing code ...
+
 
                     <Select defaultValue="fr">
                       <SelectTrigger className="w-full bg-white border-[#E1E3E8] focus:ring-[#6789CA]">

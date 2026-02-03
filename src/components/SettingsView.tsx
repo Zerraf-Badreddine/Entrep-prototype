@@ -26,7 +26,7 @@ export function SettingsView({ language }: SettingsViewProps) {
       </div>
 
       {/* Settings Grid */}
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* School Information */}
         <div className="bg-white rounded-xl p-6 border border-[#E1E3E8]">
           <div className="flex items-center gap-3 mb-6">
@@ -170,11 +170,9 @@ export function SettingsView({ language }: SettingsViewProps) {
             <h3 className="text-lg font-semibold text-[#313131]">Langue et Localisation</h3>
           </div>
           <div className="space-y-4">
+
+
             <div>
-// ... existing code ...
-
-// ... existing code ...
-
               <label className="block text-sm font-semibold text-[#313131] mb-2">Langue par défaut</label>
               <Select defaultValue="Français">
                 <SelectTrigger className="w-full bg-white border-[#E1E3E8] focus:ring-[#6789CA]">

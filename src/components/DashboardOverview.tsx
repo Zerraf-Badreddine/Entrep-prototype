@@ -51,7 +51,10 @@ export function DashboardOverview({ language, setActiveView }: DashboardOverview
           <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 sm:mb-2">Bienvenue sur Houd-Houd! 👋</h2>
           <p className="text-white opacity-90 mb-3 sm:mb-4 md:mb-6 text-xs sm:text-sm md:text-base">Tableau de bord de l'école - Jeudi 29 Janvier 2026</p>
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-            <button className="bg-white text-[#2855AE] px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg text-sm sm:text-base font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2">
+            <button 
+              onClick={() => setActiveView?.('communication')}
+              className="bg-white text-[#2855AE] px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg text-sm sm:text-base font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2"
+            >
               Nouvelle Annonce
               <ArrowRight className="w-4 h-4" />
             </button>

@@ -57,7 +57,7 @@ export function ParentHeader({ language, setLanguage, onMenuClick }: ParentHeade
 
         <div className="flex items-center gap-2 md:gap-4 ml-2 md:ml-6">
           <div className="relative hidden sm:block">
-// ... existing code ...
+
             <Select value={language} onValueChange={setLanguage}>
               <SelectTrigger className="w-[140px] bg-[#F5F7FA] border-[#E1E3E8] h-9">
                 <SelectValue placeholder="Langue" />
