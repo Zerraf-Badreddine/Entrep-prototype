@@ -47,7 +47,7 @@ export function DashboardOverview({ language, setActiveView }: DashboardOverview
       <div className="relative rounded-xl p-4 sm:p-6 md:p-8 text-white overflow-hidden" style={{ background: 'linear-gradient(-66.1555deg, rgb(40, 85, 174) 3.1469%, rgb(114, 146, 207) 100%)' }}>
         <StarDecoration className="top-4 right-20 hidden lg:block" />
         <StarDecoration className="top-12 right-40 hidden lg:block" />
-        <div className="relative z-10">
+        <div className="relative z-10 w-full sm:w-[90%] md:w-[80%]">
           <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-1 sm:mb-2">Bienvenue sur Houd-Houd! 👋</h2>
           <p className="text-white opacity-90 mb-3 sm:mb-4 md:mb-6 text-xs sm:text-sm md:text-base">Tableau de bord de l'école - Jeudi 29 Janvier 2026</p>
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
@@ -60,7 +60,7 @@ export function DashboardOverview({ language, setActiveView }: DashboardOverview
             </button>
           </div>
         </div>
-        <img src={mascotTeacher} alt="" className="absolute right-4 sm:right-8 bottom-0 w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 opacity-30" />
+        <img src={mascotTeacher} alt="" className="absolute right-2 sm:right-8 bottom-0 w-20 h-20 sm:w-32 sm:h-32 md:w-40 md:h-40 opacity-30" />
       </div>
 
       {/* Stats Grid */}

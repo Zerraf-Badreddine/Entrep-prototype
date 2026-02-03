@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import { Send, Paperclip, Users, UserPlus, Bell, MessageSquare } from 'lucide-react';
 import mascotMessage from 'figma:asset/173ce482f25d35e2f19689bb2bc81209169958cc.png';
+import { toast } from 'sonner';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 interface CommunicationViewProps {
   language: string;
@@ -8,29 +16,53 @@ interface CommunicationViewProps {
 
 export function CommunicationView({ language }: CommunicationViewProps) {
   const [messageType, setMessageType] = useState<'announcement' | 'message'>('announcement');
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
+  const [selectedRecipient, setSelectedRecipient] = useState('Tous les parents');
 
-  const recentMessages = [
+  const [recentMessages, setRecentMessages] = useState([
     { id: 1, title: 'Réunion Parents-Enseignants', date: '25 Jan 2026', recipients: 'Tous les parents', status: 'sent', reads: 234 },
     { id: 2, title: 'Modification d\'horaire', date: '20 Jan 2026', recipients: '6ème A, 6ème B', status: 'sent', reads: 89 },
     { id: 3, title: 'Examens de mi-trimestre', date: '15 Jan 2026', recipients: 'Tous les parents', status: 'sent', reads: 512 },
-  ];
+  ]);
+
+  const handleSend = () => {
+    if (!subject || !message) {
+      toast.error('Veuillez remplir le sujet et le message');
+      return;
+    }
+
+    const newMessage = {
+      id: recentMessages.length + 1,
+      title: subject,
+      date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
+      recipients: selectedRecipient,
+      status: 'sent',
+      reads: 0
+    };
+
+    setRecentMessages([newMessage, ...recentMessages]);
+    setSubject('');
+    setMessage('');
+    toast.success('Message envoyé avec succès !');
+  };
 
   return (
-    <div className="p-8 space-y-6">
+    <div className="p-4 md:p-8 space-y-4 md:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-[#313131]">Communication</h2>
-          <p className="text-[#777] mt-1">Envoyez des messages et annonces aux parents</p>
+          <h2 className="text-xl md:text-2xl font-bold text-[#313131]">Communication</h2>
+          <p className="text-[#777] mt-1 text-sm md:text-base">Envoyez des messages et annonces aux parents</p>
         </div>
-        <img src={mascotMessage} alt="" className="w-20 h-20" />
+        <img src={mascotMessage} alt="" className="w-16 h-16 md:w-20 md:h-20 self-end md:self-auto" />
       </div>
 
       {/* Message Type Selector */}
-      <div className="bg-white rounded-xl p-2 border border-[#E1E3E8] inline-flex">
+      <div className="bg-white rounded-xl p-2 border border-[#E1E3E8] flex flex-col sm:flex-row">
         <button
           onClick={() => setMessageType('announcement')}
-          className={`px-6 py-2.5 rounded-lg font-semibold transition-all ${
+          className={`px-4 md:px-6 py-2.5 rounded-lg font-semibold transition-all text-sm md:text-base flex-1 ${
             messageType === 'announcement'
               ? 'text-white shadow-lg'
               : 'text-[#777] hover:bg-[#F5F7FA]'
@@ -42,7 +74,7 @@ export function CommunicationView({ language }: CommunicationViewProps) {
         </button>
         <button
           onClick={() => setMessageType('message')}
-          className={`px-6 py-2.5 rounded-lg font-semibold transition-all ${
+          className={`px-4 md:px-6 py-2.5 rounded-lg font-semibold transition-all text-sm md:text-base flex-1 ${
             messageType === 'message'
               ? 'text-white shadow-lg'
               : 'text-[#777] hover:bg-[#F5F7FA]'
@@ -55,30 +87,35 @@ export function CommunicationView({ language }: CommunicationViewProps) {
       </div>
 
       {/* Compose Message */}
-      <div className="bg-white rounded-xl p-6 border border-[#E1E3E8]">
-        <h3 className="text-lg font-semibold text-[#313131] mb-6">
+      <div className="bg-white rounded-xl p-4 md:p-6 border border-[#E1E3E8]">
+        <h3 className="text-lg font-semibold text-[#313131] mb-4 md:mb-6">
           {messageType === 'announcement' ? 'Nouvelle Annonce' : 'Nouveau Message'}
         </h3>
 
-        <div className="space-y-5">
+        <div className="space-y-4 md:space-y-5">
           {/* Recipients */}
           <div>
             <label className="block text-sm font-semibold text-[#313131] mb-2">
               Destinataires
             </label>
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <div className="flex-1 relative">
                 <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#B8B8B8]" />
-                <select className="w-full pl-10 pr-4 py-2.5 border border-[#E1E3E8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6789CA]">
-                  <option>Tous les parents</option>
-                  <option>Parents de 6ème A</option>
-                  <option>Parents de 5ème B</option>
-                  <option>Parents de 4ème C</option>
-                  <option>Parents de 3ème A</option>
-                  <option>Sélection personnalisée...</option>
-                </select>
+                <Select value={selectedRecipient} onValueChange={setSelectedRecipient}>
+                  <SelectTrigger className="w-full pl-10 h-[42px] border-[#E1E3E8] focus:ring-[#6789CA]">
+                    <SelectValue placeholder="Sélectionner les destinataires" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Tous les parents">Tous les parents</SelectItem>
+                    <SelectItem value="Parents de 6ème A">Parents de 6ème A</SelectItem>
+                    <SelectItem value="Parents de 5ème B">Parents de 5ème B</SelectItem>
+                    <SelectItem value="Parents de 4ème C">Parents de 4ème C</SelectItem>
+                    <SelectItem value="Parents de 3ème A">Parents de 3ème A</SelectItem>
+                    <SelectItem value="Sélection personnalisée...">Sélection personnalisée...</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
-              <button className="px-4 py-2.5 border border-[#E1E3E8] rounded-lg hover:bg-[#F5F7FA] transition-colors flex items-center gap-2 font-semibold text-[#313131]">
+              <button className="px-4 py-2.5 border border-[#E1E3E8] rounded-lg hover:bg-[#F5F7FA] transition-colors flex items-center justify-center gap-2 font-semibold text-[#313131]">
                 <UserPlus className="w-5 h-5" />
                 Ajouter
               </button>
@@ -93,6 +130,8 @@ export function CommunicationView({ language }: CommunicationViewProps) {
             </label>
             <input
               type="text"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
               placeholder="Ex: Journée Portes Ouvertes le 15 Février"
               className="w-full px-4 py-2.5 border border-[#E1E3E8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6789CA]"
             />
@@ -105,13 +144,15 @@ export function CommunicationView({ language }: CommunicationViewProps) {
             </label>
             <textarea
               rows={6}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
               placeholder="Rédigez votre message ici..."
               className="w-full px-4 py-3 border border-[#E1E3E8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6789CA] resize-none"
             />
           </div>
 
           {/* Options */}
-          <div className="flex items-center gap-6 p-4 bg-[#F5F7FA] rounded-lg border border-[#E1E3E8]">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-4 md:gap-6 p-4 bg-[#F5F7FA] rounded-lg border border-[#E1E3E8]">
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" className="rounded border-[#E1E3E8]" defaultChecked />
               <span className="text-sm text-[#313131]">Envoyer notification push</span>
@@ -127,16 +168,20 @@ export function CommunicationView({ language }: CommunicationViewProps) {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-between pt-4">
-            <button className="px-4 py-2.5 border border-[#E1E3E8] rounded-lg hover:bg-[#F5F7FA] transition-colors flex items-center gap-2 font-semibold text-[#313131]">
+          <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-4 pt-4">
+            <button className="w-full sm:w-auto px-4 py-2.5 border border-[#E1E3E8] rounded-lg hover:bg-[#F5F7FA] transition-colors flex items-center justify-center gap-2 font-semibold text-[#313131]">
               <Paperclip className="w-5 h-5" />
               Joindre un fichier
             </button>
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-3">
               <button className="px-6 py-2.5 border border-[#E1E3E8] rounded-lg hover:bg-[#F5F7FA] transition-colors font-semibold text-[#313131]">
                 Enregistrer comme brouillon
               </button>
-              <button className="px-6 py-2.5 text-white rounded-lg hover:shadow-lg transition-all flex items-center gap-2 font-semibold" style={{ background: 'linear-gradient(-66.1555deg, rgb(40, 85, 174) 3.1469%, rgb(114, 146, 207) 100%)' }}>
+              <button 
+                onClick={handleSend}
+                className="px-6 py-2.5 text-white rounded-lg hover:shadow-lg transition-all flex items-center justify-center gap-2 font-semibold" 
+                style={{ background: 'linear-gradient(-66.1555deg, rgb(40, 85, 174) 3.1469%, rgb(114, 146, 207) 100%)' }}
+              >
                 <Send className="w-5 h-5" />
                 Envoyer Maintenant
               </button>

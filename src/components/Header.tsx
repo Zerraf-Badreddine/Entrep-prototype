@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Bell, Search, Globe, User, Menu } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 interface HeaderProps {
   language: string;
@@ -50,16 +57,18 @@ export function Header({ language, setLanguage, onMenuClick }: HeaderProps) {
 
         <div className="flex items-center gap-2 md:gap-4 ml-2 md:ml-6">
           <div className="relative hidden sm:block">
-            <select
-              value={language}
-              onChange={(e) => setLanguage(e.target.value)}
-              className="appearance-none bg-[#F5F7FA] border border-[#E1E3E8] rounded-lg px-3 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-[#6789CA] cursor-pointer"
-            >
-              <option value="fr">Français</option>
-              <option value="ar">العربية</option>
-              <option value="en">English</option>
-              <option value="am">Tamazight</option>
-            </select>
+// ... existing code ...
+            <Select value={language} onValueChange={setLanguage}>
+              <SelectTrigger className="w-[140px] bg-[#F5F7FA] border-[#E1E3E8] h-9">
+                <SelectValue placeholder="Langue" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="fr">Français</SelectItem>
+                <SelectItem value="ar">العربية</SelectItem>
+                <SelectItem value="en">English</SelectItem>
+                <SelectItem value="am">Tamazight</SelectItem>
+              </SelectContent>
+            </Select>
             <Globe className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-[#B8B8B8] pointer-events-none" />
           </div>
 

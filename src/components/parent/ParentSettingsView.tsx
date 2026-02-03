@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
 import { User, Mail, Phone, MapPin, Bell, Globe, Lock, Save } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 interface ParentSettingsViewProps {
   language: string;
@@ -102,12 +109,19 @@ export function ParentSettingsView({ language }: ParentSettingsViewProps) {
                       <Globe className="w-4 h-4 inline mr-2" />
                       Langue Préférée
                     </label>
-                    <select className="w-full px-4 py-2.5 border border-[#E1E3E8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6789CA]">
-                      <option value="fr">Français</option>
-                      <option value="ar">العربية</option>
-                      <option value="en">English</option>
-                      <option value="am">Tamazight</option>
-                    </select>
+// ... existing code ...
+
+                    <Select defaultValue="fr">
+                      <SelectTrigger className="w-full bg-white border-[#E1E3E8] focus:ring-[#6789CA]">
+                        <SelectValue placeholder="Choisir une langue" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="fr">Français</SelectItem>
+                        <SelectItem value="ar">العربية</SelectItem>
+                        <SelectItem value="en">English</SelectItem>
+                        <SelectItem value="am">Tamazight</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div className="md:col-span-2">
                     <label className="block text-sm font-semibold text-[#313131] mb-2">

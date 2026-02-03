@@ -1,5 +1,12 @@
 import React from 'react';
 import { School, Users, Bell, Shield, CreditCard, Globe } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 import mascotHappy from 'figma:asset/fc8446e65fca6fb8d93cefdce92e67763fe46dbd.png';
 
 interface SettingsViewProps {
@@ -164,27 +171,46 @@ export function SettingsView({ language }: SettingsViewProps) {
           </div>
           <div className="space-y-4">
             <div>
+// ... existing code ...
+
+// ... existing code ...
+
               <label className="block text-sm font-semibold text-[#313131] mb-2">Langue par défaut</label>
-              <select className="w-full px-4 py-2.5 border border-[#E1E3E8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6789CA]">
-                <option>Français</option>
-                <option>العربية (Arabe)</option>
-                <option>English</option>
-                <option>Tamazight</option>
-              </select>
+              <Select defaultValue="Français">
+                <SelectTrigger className="w-full bg-white border-[#E1E3E8] focus:ring-[#6789CA]">
+                  <SelectValue placeholder="Choisir une langue" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Français">Français</SelectItem>
+                  <SelectItem value="Arabe">العربية (Arabe)</SelectItem>
+                  <SelectItem value="English">English</SelectItem>
+                  <SelectItem value="Tamazight">Tamazight</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div>
               <label className="block text-sm font-semibold text-[#313131] mb-2">Fuseau horaire</label>
-              <select className="w-full px-4 py-2.5 border border-[#E1E3E8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6789CA]">
-                <option>GMT+1 (Alger)</option>
-              </select>
+              <Select defaultValue="GMT+1">
+                <SelectTrigger className="w-full bg-white border-[#E1E3E8] focus:ring-[#6789CA]">
+                  <SelectValue placeholder="Choisir un fuseau horaire" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="GMT+1">GMT+1 (Alger)</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div>
               <label className="block text-sm font-semibold text-[#313131] mb-2">Format de date</label>
-              <select className="w-full px-4 py-2.5 border border-[#E1E3E8] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6789CA]">
-                <option>JJ/MM/AAAA</option>
-                <option>MM/JJ/AAAA</option>
-                <option>AAAA-MM-JJ</option>
-              </select>
+              <Select defaultValue="JJ/MM/AAAA">
+                <SelectTrigger className="w-full bg-white border-[#E1E3E8] focus:ring-[#6789CA]">
+                  <SelectValue placeholder="Choisir un format" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="JJ/MM/AAAA">JJ/MM/AAAA</SelectItem>
+                  <SelectItem value="MM/JJ/AAAA">MM/JJ/AAAA</SelectItem>
+                  <SelectItem value="AAAA-MM-JJ">AAAA-MM-JJ</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
         </div>
